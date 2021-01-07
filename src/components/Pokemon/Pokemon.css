@@ -1,0 +1,113 @@
+.pagination {
+    align-content: center;
+    margin-left: 55px;
+    margin-top: 5px;
+    height: 45px;
+    margin-right: 10px;
+    flex-wrap: none;
+}
+.pagination span {
+  cursor: pointer;
+  color: black;
+  float: left;
+  margin-top: 3px;
+  margin-bottom: 8px;
+  padding: 8px 16px;
+  text-decoration: none;
+  transition: background-color .3s;
+  border: 1px solid #ddd;
+}
+
+.pagination span.active {
+  background-color: #1abc9c;
+  color: white;
+  border: 1px solid #1abc9c;
+}
+.results-per-page{
+    margin-left: 10px;
+    float: right;
+    font-size: 12px;
+    margin-right: 10px;
+}
+.noResults{
+    align-content: center;
+    margin: auto;
+    text-align: center;
+    width: 50%;
+    background: #1abc9c;
+    color: white;
+    font-size: 25px;
+    padding: 10px;    
+}
+#pokemon {
+    font-family: Arial, Helvetica, sans-serif;
+    border-collapse: collapse;
+    width: 90%;
+    align-content: center;
+    margin: auto;
+    margin-top: 2%;
+}
+#pokemon td, #pokemon th {
+    border-bottom: 1px solid #ddd;
+    padding: 8px;
+    margin: auto;
+} 
+#pokemon th {
+    padding-top: 12px;
+    padding-bottom: 12px;
+    text-align: left;
+    background-color: #1abc9c;
+    color: white;
+    text-align: auto;
+  }
+.weakness-container{
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.details{
+    border: 2px solid darkcyan;
+    padding-right: 15px;
+    padding-left: 15px;
+    font-size: 18px;
+    border-radius: 25px;
+    /* margin-left: 5px; */
+    background: none;
+    text-decoration: none;
+    color: darkcyan;
+}
+.details:hover{
+    padding-right: 15px;
+    padding-left: 15px;
+    color: white;
+    font-size: 18px;
+    border-radius: 25px;
+    margin-left: 5px;
+    background: darkcyan;
+}
+.container{
+    display: flex;
+    flex-wrap: wrap;
+}
+.table-container{
+    width: 80%;
+}
+.filter-container{
+    background-color: #1aBC9c;
+    margin-top: 0px;
+    text-align: left;
+    position: relative;
+}
+.filter-title{
+    color: white;
+    margin-top: 0px;
+    padding-top: 10%;
+    text-align: auto;
+    font-size: 25px;
+}
+.filter-heading{
+    width: 250px;
+    height: 100px;
+    background-color: darkcyan;
+    text-align: center;
+}

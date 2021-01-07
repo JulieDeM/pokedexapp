@@ -1,23 +1,27 @@
-import logo from './logo.svg';
+// const BrowserHistory = require('react-router/lib/BrowserHistory').default;
 import './App.css';
+import Home from './components/Home/Home';
+import PokemonDetails from './components/PokemonDetails/PokemonDetails';
+import { createBrowserHistory } from "history";
+
+import {
+  BrowserRouter as Router,
+  // BrowserHistory,
+  Switch,
+  Route,
+} from "react-router-dom";
+
+const history = createBrowserHistory();
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <Router history={history}>
+        <Switch>
+          <Route exact path="/" component={Home} />
+          <Route exact path='/pokemon/:num' component={PokemonDetails} />
+        </Switch>
+    </Router>
     </div>
   );
 }
