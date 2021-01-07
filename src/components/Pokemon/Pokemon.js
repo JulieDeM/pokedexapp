@@ -55,7 +55,10 @@ class Pokemon extends React.Component {
   render() {
       console.log('this.props.pokemon')
       console.log(this.props.pokemons)
-      const filtersType= this.props.pokemons
+      // const filtersType= this.props.pokemons.filter((o) => this.props.pokemons.indexOf(o.type) === -1);
+      // console.log('filterstype')
+      // console.log(filtersType)
+
     return (
       <div>
         <div className="container">
@@ -69,7 +72,7 @@ class Pokemon extends React.Component {
                 {this.renderTableData()}
             </tbody>
             </table>
-            {this.props.pokemon && this.props.pokemons.length === 0 && (
+            {this.props.pokemons.length === 0 && (
              <p className="noResults">There are no matches for your search, please try again</p>
             )}
         <div className='pagination'>
@@ -83,10 +86,39 @@ class Pokemon extends React.Component {
           </div>
             <div className="filter-container">
               <div className="filter-heading">
-                <p className="filter-title">Filters</p>
+                <h1 className="filter-title">Filters</h1>
               </div>
-                <p></p>
-
+                <h2 className="filter-title">Type</h2>
+                <span className="filter-section">
+                  {this.props.typeArray.map(type => {
+                    return (
+                    <span className="checkbox-label">
+                    <input 
+                     type="checkbox" 
+                     id={type} 
+                     name={type}
+                     />
+                     <label className="checkbox-labels" for={type}>{type}</label>
+                     </span>
+                    )
+                  })}
+                </span>
+                <h2 className="filter-title">Weaknesses</h2>
+                <span className="filter-section">
+                  {this.props.weaknessesArray.map(type => {
+                    return (
+                    <span className="checkbox-label">
+                    <input 
+                     type="checkbox" 
+                     id={type} 
+                     name={type}
+                     
+                     />
+                     <label className="checkbox-labels" for={type}>{type}</label>
+                     </span>
+                    )
+                  })}
+                </span>
                 
             </div>
         </div>

@@ -111,3 +111,16 @@
     background-color: darkcyan;
     text-align: center;
 }
+.checkbox-labels{
+    color: white;
+    margin-left: 5px;
+}
+.filter-section{
+    width: 250px;
+    display: flex;
+    flex-wrap: wrap;
+}
+.checkbox-label{
+    margin-left: 8%;
+    font-size: 20px;
+}

@@ -78,6 +78,30 @@ class Home extends React.Component {
      const indexOfLastRestaurant = this.state.currentPage * this.state.perPage;
      const indexOfFirstRestaurant = indexOfLastRestaurant - this.state.perPage;
      const currentPokemons = this.state.pokemonFiltered.slice(indexOfFirstRestaurant, indexOfLastRestaurant );
+  
+    let typeArray = [];
+    // eslint-disable-next-line
+    this.state.pokemonFiltered.map(type => { 
+        type.type.map(type => {
+            if(typeArray.indexOf(type) === -1) {
+                //sort the type alphabetically so easier to filter then push to new array used
+                typeArray.push(type);
+                typeArray.sort();
+            }
+        })
+    });
+
+    let weaknessesArray = [];
+    // eslint-disable-next-line
+    this.state.pokemonFiltered.map(type => { 
+        type.weaknesses.map(weaknesses => {
+            if(weaknessesArray.indexOf(weaknesses) === -1) {
+                weaknessesArray.push(weaknesses);
+                weaknessesArray.sort();
+            }
+        })
+    });
+   
     return (
       <div>
         <Header
@@ -91,6 +115,8 @@ class Home extends React.Component {
         changePage={this.changePage.bind(this)}
         totalResults={this.state.totalResults}
         itemsOnPage={this.state.itemsOnPage}
+        typeArray={typeArray}
+        weaknessesArray={weaknessesArray}
         />
       </div>
     );
