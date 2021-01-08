@@ -20,6 +20,13 @@
     margin-bottom: auto;
     margin-left: 20px;
 }
+.fa-arrow-circle-left:hover{
+    color: black;
+    font-size: 40px;
+    margin-top:auto;
+    margin-bottom: auto;
+    margin-left: 20px;
+}
 .pokemon-name{
     display: flex;
     justify-content: space-between;
@@ -29,7 +36,24 @@
     /* padding-top: 12px; */
     text-align: center;
     margin: auto;
+    padding-top: 30px;
+}
+.pokemon-details{
+    display: flex;
+    flex-wrap: wrap;
+    align-content: center;
+    justify-content: space-between;
 }
 .name{
     font-size: 55px;
+}
+.back-button{
+    border: none;
+    background: none;
+}
+.type-weakness{
+    float: left;
+}
+.data-title{
+    text-decoration: underline;
 }

@@ -7,6 +7,7 @@ import {
   } from "react-router-dom";
 
 class Pokemon extends React.Component {
+
     renderTableHeader = () => {
         // @ToDO: Make dynamic, IF time 
         return (
@@ -53,16 +54,9 @@ class Pokemon extends React.Component {
     }
 
   render() {
-      console.log('this.props.pokemon')
-      console.log(this.props.pokemons)
-      // const filtersType= this.props.pokemons.filter((o) => this.props.pokemons.indexOf(o.type) === -1);
-      // console.log('filterstype')
-      // console.log(filtersType)
-
     return (
       <div>
         <div className="container">
-        {/* <div> */}
         <div className="table-container">
             <table id="pokemon">
             <tbody >
@@ -92,29 +86,32 @@ class Pokemon extends React.Component {
                 <span className="filter-section">
                   {this.props.typeArray.map(type => {
                     return (
-                    <span className="checkbox-label">
+                    <span className="checkbox-label" key={type}>
                     <input 
                      type="checkbox" 
                      id={type} 
                      name={type}
+                     checked={this.props.checkedItemsType.get(type)}
+                     onChange={this.props.handleChange}
                      />
-                     <label className="checkbox-labels" for={type}>{type}</label>
+                     <label className="checkbox-labels" htmlFor={type}>{type}</label>
                      </span>
                     )
                   })}
                 </span>
                 <h2 className="filter-title">Weaknesses</h2>
                 <span className="filter-section">
-                  {this.props.weaknessesArray.map(type => {
+                  {this.props.weaknessesArray.map(weakness => {
                     return (
-                    <span className="checkbox-label">
+                    <span className="checkbox-label" key={weakness}>
                     <input 
                      type="checkbox" 
-                     id={type} 
-                     name={type}
-                     
+                     id={weakness} 
+                     name={weakness}
+                     checked={this.props.checkedItemsWeaknesses.get(weakness)}
+                     onChange={this.props.handleChangeWeaknesses}
                      />
-                     <label className="checkbox-labels" for={type}>{type}</label>
+                     <label className="checkbox-labels" htmlFor={weakness}>{weakness}</label>
                      </span>
                     )
                   })}

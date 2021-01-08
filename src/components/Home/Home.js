@@ -16,7 +16,15 @@ class Home extends React.Component {
             pagesNeeded: null,
             perPage: 10,
             currentPage: 1,
+            checkedItemsType: new Map(),
+            checkedItemsWeaknesses: new Map(),
+            weaknessesFilter: [],
+            typesChecked: [],
+            activeWeaknessFilter: []
         }
+      
+        this.handleChange = this.handleChange.bind(this);
+        this.handleChangeWeaknesses = this.handleChangeWeaknesses.bind(this);
     }
     componentDidMount(){
         this.fetchPokemons();
@@ -62,7 +70,7 @@ class Home extends React.Component {
       };
 
     handleSearch = event => {
-        var updatedList = this.state.pokemon;
+        let updatedList = this.state.pokemon;
         updatedList = updatedList.filter(function(item) {
           return item.name.toLowerCase().search(event.target.value.toLowerCase()) !== -1;
         });
@@ -72,6 +80,121 @@ class Home extends React.Component {
         }
         this.setState({pokemonFiltered: updatedList, pagesNeeded: pageNumbers, searchString: event.target.value.substr(0, 20) });
     }
+
+    //Filter by type
+    handleChange = e => {
+        const item = e.target.name;
+        const isChecked = e.target.checked;
+        // console.log(this.state.pokemonFiltered);
+        // console.log('item')
+        // console.log(item)'
+        let typeArray = [];
+        // eslint-disable-next-line
+        this.state.pokemonFiltered.map(type => { 
+            type.type.map(type => {
+                console.log(type)
+                if(typeArray.indexOf(item) === -1) {
+                    //sort the type alphabetically so easier to filter then push to new array used
+                    typeArray.push(type);
+                    typeArray.sort();
+                }
+            })
+        });
+        console.log('typeArray')
+        console.log(typeArray.length)
+        this.setState(prevState => ({ checkedItemsType: prevState.checkedItemsType.set(item, isChecked) }));
+        
+
+        // this.state.checkedItemsType.forEach( (value, key, map) => {
+        //     console.log(`${key}: ${value}`); 
+        //     if(key === true){
+        //         let typeArray = [];
+        //         // eslint-disable-next-line
+        //         this.state.pokemonFiltered.map(type => { 
+        //             type.type.map(type => {
+        //                 if(typeArray.indexOf(value) === -1) {
+        //                     //sort the type alphabetically so easier to filter then push to new array used
+        //                     typeArray.push(type);
+        //                     typeArray.sort();
+        //                 }
+        //             })
+        //         });
+        //         console.log('typeArray')
+        //         console.log(typeArray.length)
+        //     }
+        //   });
+        
+      }
+
+      handleChangeWeaknesses = e => {
+        const { pokemonFiltered, activeWeaknessFilter } = this.state;
+        if (activeWeaknessFilter.includes(e.target.name)) {
+            const filterIndex = activeWeaknessFilter.indexOf(e.target.name);
+            const newFilter = [...activeWeaknessFilter];
+            newFilter.splice(filterIndex, 1);
+            this.setState({ activeWeaknessFilter: newFilter });
+        } else {
+            this.setState({ activeWeaknessFilter: [...activeWeaknessFilter, e.target.name] });
+        }
+
+        let updatedList = pokemonFiltered;
+        updatedList = updatedList.filter(function(item) {
+          return item.name.toLowerCase().search(e.target.name.toLowerCase()) !== -1;
+        });
+        console.log('updatedList')
+        console.log(updatedList)
+        //    let filteredList;
+        //     if (
+        //         activeWeaknessFilter.length === 0 ||
+        //         activeWeaknessFilter.length === filterList.length
+        //     ) {
+        //     filteredList = this.state.pokemonFiltered;
+        //     console.log('filteredList if 0')
+        //     console.log(filteredList)
+        //     } else {
+        //     filteredList = this.state.pokemonFiltered.filter(item =>
+        //         // console.log('item')
+        //         console.log(item)
+        //         // this.state.activeFilter.includes(item.type)
+        //     );
+        //     console.log('filteredList')
+        //     console.log(filteredList)
+        //     }
+            // console.log('filteredList')
+            // console.log(filteredList)
+        console.log('this.state.activeWeaknessFilter')
+        console.log(this.state.activeWeaknessFilter)
+      }
+    
+    // //Filter by weakness
+    // handleChangeWeaknesses = e => {
+      
+    //     const value = e.target.type === 'checkbox' ? e.target.checked : e.target.value;
+    //     const name = e.target.name;
+    //     console.log('----------- value ------------')
+    //     console.log(value)
+    //     console.log('----------- name ------------')
+    //     console.log(name)
+    //     let filterWeakness = this.state.weaknessesFilter;
+    //     if(value === true){
+    //         //setState is asynchronous, need to see updated state value immediately no on rerender
+    //         //state was lagging with just , name so did callback function
+    //         this.setState({ weaknessesFilter: [...this.state.weaknessesFilter, name] })
+    //      } 
+    //      console.log('this.state.weaknessesFilter')
+    //      console.log(this.state.weaknessesFilter)
+
+    //         this.setState({
+    //         [name]: value,
+    //         // typeFilters: filterWeakness
+    //         });
+    //         console.log(this.state)
+
+    //     //@TODO: Refactor opportunity. Refactor to work with below logic
+    //     const item = e.target.name;
+    //     const isChecked = e.target.checked;
+    //     this.setState(prevState => ({ checkedItemsWeaknesses: prevState.checkedItemsWeaknesses.set(item, isChecked) }));
+    // }
 
   render() {
      //get first and last index for pagination
@@ -117,6 +240,10 @@ class Home extends React.Component {
         itemsOnPage={this.state.itemsOnPage}
         typeArray={typeArray}
         weaknessesArray={weaknessesArray}
+        handleChange={this.handleChange}
+        handleChangeWeaknesses={this.handleChangeWeaknesses}
+        checkedItemsWeaknesses={this.state.checkedItemsWeaknesses}
+        checkedItemsType={this.state.checkedItemsType}
         />
       </div>
     );
