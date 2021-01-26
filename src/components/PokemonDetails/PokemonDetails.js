@@ -1,15 +1,12 @@
 import React from 'react';
 import './PokemonDetails.css';
 import {
-    withRouter,
-    Link
+    withRouter
 } from "react-router-dom";
 
 class PokemonDetails extends React.Component {
 
   render() {
-    console.log('this.props.location.state.weaknesses')
-    console.log(this.props.location.state.weaknesses)
     return (
       <div >
         <div className="header-container">
@@ -37,10 +34,8 @@ class PokemonDetails extends React.Component {
             <div className="pokemon-name">
                 <h1 className="data-title">Weaknesses: </h1>
                 {this.props.location.state.weaknesses.map(weakness => {
-                    // console.log(weakness)
                     return <h1 key={weakness} className={weakness}>{weakness}</h1>
                 })}
-                {/* <h1>{this.props.location.state.weaknesses},</h1> */}
             </div>
             { this.props.location.state.next_evolution && (
             <div className="pokemon-name">

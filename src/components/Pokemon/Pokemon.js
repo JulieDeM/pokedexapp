@@ -25,11 +25,13 @@ class Pokemon extends React.Component {
         return this.props.pokemons.map(pokemon => {
           const { id, name, num, type, weaknesses, img, height, weight, prev_evolution, next_evolution } = pokemon;
           return (
-              <tr key={id} >
+              <tr key={id}  >
                 <td>{name}</td>
                 <td>{num}</td>
-                <td>{type}</td>
-                <td className="weakness-container">{
+                <td >{type && type.map(type => 
+                        <ul key={type} className={type}>{type }</ul>) 
+                }</td>
+                <td >{ 
                     weaknesses && weaknesses.map(weak => 
                         <ul key={weak} className={weak}>{weak}</ul>)
                 }</td>
@@ -47,11 +49,6 @@ class Pokemon extends React.Component {
           )
         })
       };
-    
-    filterByType = () => {
-      const types = [];
-      this.props.pokemons.map()
-    }
 
   render() {
     return (

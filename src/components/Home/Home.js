@@ -12,27 +12,29 @@ class Home extends React.Component {
             searchString: '',
             pokemon: [],
             pokemonFiltered: [],
+            pokemonReset: [],
             pageNumbers: [10, 20, 30],
             pagesNeeded: null,
             perPage: 10,
             currentPage: 1,
             checkedItemsType: new Map(),
+            selectedItems: [],
             checkedItemsWeaknesses: new Map(),
             weaknessesFilter: [],
-            typesChecked: [],
-            activeWeaknessFilter: []
-        }
+            checkedValues: []
+        };
       
         this.handleChange = this.handleChange.bind(this);
         this.handleChangeWeaknesses = this.handleChangeWeaknesses.bind(this);
-    }
+    };
+    //@Todo, refactor with hooks
+
     componentDidMount(){
         this.fetchPokemons();
       };
 
       fetchPokemons = () => {
         const apiUrl = 'https://raw.githubusercontent.com/Biuni/PokemonGO-Pokedex/master/pokedex.json';
-  
         return fetch(apiUrl)
         .then(response => response.json())
         .then(allpokemon =>  {
@@ -53,148 +55,128 @@ class Home extends React.Component {
             const pageNumbers = [];
             for (let i = 1; i <= Math.ceil(allpokemon.pokemon.length / 10); i++) {
                 pageNumbers.push(i);
-            }
+            };
             
             this.setState({ 
                 pokemon: allpokemon.pokemon,
+                pokemonReset: allpokemon.pokemon,
                 pokemonFiltered: allpokemon.pokemon,
                 pageNumbers: pageNumbers,
                 pagesNeeded: pageNumbers
-            })
-        })
-      }
-      changePage = pageNumb => {
-        this.setState({
-          currentPage: pageNumb
-        })
+            });
+        });
       };
+
+    changePage = pageNumb => {
+        this.setState({
+            currentPage: pageNumb
+        });
+    };
 
     handleSearch = event => {
         let updatedList = this.state.pokemon;
-        updatedList = updatedList.filter(function(item) {
+        updatedList = updatedList.filter(item => {
           return item.name.toLowerCase().search(event.target.value.toLowerCase()) !== -1;
         });
         const pageNumbers = [];
         for (let i = 1; i <= Math.ceil(updatedList.length / 10); i++) {
             pageNumbers.push(i);
-        }
+        };
         this.setState({pokemonFiltered: updatedList, pagesNeeded: pageNumbers, searchString: event.target.value.substr(0, 20) });
-    }
-
-    //Filter by type
-    handleChange = e => {
-        const item = e.target.name;
-        const isChecked = e.target.checked;
-        // console.log(this.state.pokemonFiltered);
-        // console.log('item')
-        // console.log(item)'
-        let typeArray = [];
-        // eslint-disable-next-line
-        this.state.pokemonFiltered.map(type => { 
-            type.type.map(type => {
-                console.log(type)
-                if(typeArray.indexOf(item) === -1) {
-                    //sort the type alphabetically so easier to filter then push to new array used
-                    typeArray.push(type);
-                    typeArray.sort();
-                }
-            })
-        });
-        console.log('typeArray')
-        console.log(typeArray.length)
-        this.setState(prevState => ({ checkedItemsType: prevState.checkedItemsType.set(item, isChecked) }));
-        
-
-        // this.state.checkedItemsType.forEach( (value, key, map) => {
-        //     console.log(`${key}: ${value}`); 
-        //     if(key === true){
-        //         let typeArray = [];
-        //         // eslint-disable-next-line
-        //         this.state.pokemonFiltered.map(type => { 
-        //             type.type.map(type => {
-        //                 if(typeArray.indexOf(value) === -1) {
-        //                     //sort the type alphabetically so easier to filter then push to new array used
-        //                     typeArray.push(type);
-        //                     typeArray.sort();
-        //                 }
-        //             })
-        //         });
-        //         console.log('typeArray')
-        //         console.log(typeArray.length)
-        //     }
-        //   });
-        
-      }
-
-      handleChangeWeaknesses = e => {
-        const { pokemonFiltered, activeWeaknessFilter } = this.state;
-        if (activeWeaknessFilter.includes(e.target.name)) {
-            const filterIndex = activeWeaknessFilter.indexOf(e.target.name);
-            const newFilter = [...activeWeaknessFilter];
-            newFilter.splice(filterIndex, 1);
-            this.setState({ activeWeaknessFilter: newFilter });
-        } else {
-            this.setState({ activeWeaknessFilter: [...activeWeaknessFilter, e.target.name] });
-        }
-
-        let updatedList = pokemonFiltered;
-        updatedList = updatedList.filter(function(item) {
-          return item.name.toLowerCase().search(e.target.name.toLowerCase()) !== -1;
-        });
-        console.log('updatedList')
-        console.log(updatedList)
-        //    let filteredList;
-        //     if (
-        //         activeWeaknessFilter.length === 0 ||
-        //         activeWeaknessFilter.length === filterList.length
-        //     ) {
-        //     filteredList = this.state.pokemonFiltered;
-        //     console.log('filteredList if 0')
-        //     console.log(filteredList)
-        //     } else {
-        //     filteredList = this.state.pokemonFiltered.filter(item =>
-        //         // console.log('item')
-        //         console.log(item)
-        //         // this.state.activeFilter.includes(item.type)
-        //     );
-        //     console.log('filteredList')
-        //     console.log(filteredList)
-        //     }
-            // console.log('filteredList')
-            // console.log(filteredList)
-        console.log('this.state.activeWeaknessFilter')
-        console.log(this.state.activeWeaknessFilter)
-      }
+    };
     
-    // //Filter by weakness
-    // handleChangeWeaknesses = e => {
-      
-    //     const value = e.target.type === 'checkbox' ? e.target.checked : e.target.value;
-    //     const name = e.target.name;
-    //     console.log('----------- value ------------')
-    //     console.log(value)
-    //     console.log('----------- name ------------')
-    //     console.log(name)
-    //     let filterWeakness = this.state.weaknessesFilter;
-    //     if(value === true){
-    //         //setState is asynchronous, need to see updated state value immediately no on rerender
-    //         //state was lagging with just , name so did callback function
-    //         this.setState({ weaknessesFilter: [...this.state.weaknessesFilter, name] })
-    //      } 
-    //      console.log('this.state.weaknessesFilter')
-    //      console.log(this.state.weaknessesFilter)
+    handleChange = e => {
+        let pokemonName = e.target.name;
+        let checked = e.target.checked;
 
-    //         this.setState({
-    //         [name]: value,
-    //         // typeFilters: filterWeakness
-    //         });
-    //         console.log(this.state)
+        let pokemonReset = this.state.pokemonReset;
+        let filteredCategories = this.state.selectedItems.filter(existingTag => {
+            return existingTag ? existingTag !== pokemonName : pokemonReset
+        });
 
-    //     //@TODO: Refactor opportunity. Refactor to work with below logic
-    //     const item = e.target.name;
-    //     const isChecked = e.target.checked;
-    //     this.setState(prevState => ({ checkedItemsWeaknesses: prevState.checkedItemsWeaknesses.set(item, isChecked) }));
-    // }
+        let newCategories = filteredCategories.length === this.state.selectedItems.length ?
+        filteredCategories.concat([pokemonName]) :
+        filteredCategories;
+
+        let pokemonFilteredRemoved = this.state.pokemon;
+        pokemonFilteredRemoved = pokemonFilteredRemoved.filter(item => {
+            for(let i = 0; i < newCategories.length; i++){
+                if(newCategories.length > 0){
+                    return item.type.includes(newCategories[i]);
+                } else {
+                    return pokemonReset;
+                };
+            };
+        });
+ 
+        const pageNumbers = [];
+        for (let i = 1; i <= Math.ceil(pokemonFilteredRemoved.length / 10); i++) {
+            pageNumbers.push(i);
+        };
+
+        if (checked) {
+            this.setState(prevState => ({
+                selectedItems: prevState.selectedItems.concat(pokemonName),
+                pagesNeeded: pageNumbers,
+                pokemonFiltered: prevState.pokemonFiltered.filter(i => { return i.type.includes(pokemonName) })
+            }));
+        } else {
+            this.setState({
+                selectedItems: newCategories,
+                pokemonFiltered: newCategories.length > 0 ? pokemonFilteredRemoved : this.state.pokemonReset,
+                pagesNeeded: pageNumbers
+            });
+        };
+    };
+
+    handleChangeWeaknesses = e => {
+        let pokemonName = e.target.name;
+        let checked = e.target.checked;
+
+        let pokemonReset = this.state.pokemonReset;
+        let filteredCategories = this.state.selectedItems.filter(existingTag => {
+            return existingTag ? existingTag !== pokemonName : pokemonReset
+        });
+
+        let newCategories = filteredCategories.length === this.state.selectedItems.length ?
+        filteredCategories.concat([pokemonName]) :
+        filteredCategories;
+
+        let pokemonFilteredRemoved = this.state.pokemon;
+        pokemonFilteredRemoved = pokemonFilteredRemoved.filter(item => {
+        for(let i = 0; i < newCategories.length; i++){
+            if(newCategories.length > 0){
+                return item.weaknesses.includes(newCategories[i]);
+            } else {
+                return pokemonReset;
+            }
+            }
+        });
+ 
+        const pageNumbers = [];
+        for (let i = 1; i <= Math.ceil(pokemonFilteredRemoved.length / 10); i++) {
+            pageNumbers.push(i);
+        };
+        if (checked) {
+            this.setState(prevState => ({
+                selectedItems: prevState.selectedItems.concat(pokemonName),
+                pagesNeeded: pageNumbers,
+                pokemonFiltered: prevState.pokemonFiltered.filter(i => { return i.weaknesses.includes(pokemonName)})
+            }));
+        } else {
+            this.setState({
+                selectedItems: newCategories,
+                pokemonFiltered: newCategories.length > 0 ? pokemonFilteredRemoved : this.state.pokemonReset,
+                pagesNeeded: pageNumbers
+            });
+        };
+        //@TODO: Refactor opportunity. Refactor to work with below logic
+        //     const item = e.target.name;
+        //     const isChecked = e.target.checked;
+        //     this.setState(prevState => ({ checkedItemsWeaknesses: prevState.checkedItemsWeaknesses.set(item, isChecked) }));
+    };
+
+
 
   render() {
      //get first and last index for pagination
@@ -204,25 +186,27 @@ class Home extends React.Component {
   
     let typeArray = [];
     // eslint-disable-next-line
-    this.state.pokemonFiltered.map(type => { 
+    this.state.pokemon.map(type => { 
         type.type.map(type => {
             if(typeArray.indexOf(type) === -1) {
                 //sort the type alphabetically so easier to filter then push to new array used
                 typeArray.push(type);
                 typeArray.sort();
-            }
-        })
+                return;
+            };
+        });
     });
 
     let weaknessesArray = [];
     // eslint-disable-next-line
-    this.state.pokemonFiltered.map(type => { 
+    this.state.pokemon.map(type => { 
         type.weaknesses.map(weaknesses => {
             if(weaknessesArray.indexOf(weaknesses) === -1) {
                 weaknessesArray.push(weaknesses);
                 weaknessesArray.sort();
-            }
-        })
+                return;
+            };
+        });
     });
    
     return (
@@ -247,8 +231,7 @@ class Home extends React.Component {
         />
       </div>
     );
-  }
-}
-
+  };
+};
  
 export default withRouter(Home);

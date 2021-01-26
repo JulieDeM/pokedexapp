@@ -63,7 +63,13 @@
 .weakness-container{
     display: flex;
     flex-wrap: wrap;
+    /* width: 250px; */
 }
+/* .type-container{
+    display: flex;
+    flex-wrap: wrap;
+    width: 250px;
+} */
 
 .details{
     border: 2px solid darkcyan;
@@ -104,6 +110,7 @@
     padding-top: 10%;
     text-align: auto;
     font-size: 25px;
+    margin-left: 10px;
 }
 .filter-heading{
     width: 250px;
